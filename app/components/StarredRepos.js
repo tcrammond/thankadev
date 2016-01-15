@@ -21,9 +21,9 @@ var Profile = React.createClass({
   componentDidMount: function() {
     helpers.github
       .getUserData(this.props.params.username)
-      .then((response) => {
+      .then((repos) => {
         this.setState({
-          repos: response.data
+          repos: repos
         });
       });
   },

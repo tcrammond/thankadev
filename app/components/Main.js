@@ -7,17 +7,17 @@ var Main = React.createClass({
   render: function() {
     return (
       <div className="container">
-        <div className="row">
-          <div className="column">
-            <h1 className="text-center">Thank a developer</h1>
+        <div className="row hero">
+          <div className="column text-center">
+            <h1>Thank a developer</h1>
+            <p>A 'thank you' goes a long way.</p>
+            <p>Why not reach out and make someone's day?</p>
           </div>
         </div>
         <div className="row" style={{marginTop: '75px'}}>
-          <div className="column"></div>
-          <div className="column">
+          <div className="column column-50 column-offset-25">
             {this.props.children}
           </div>
-          <div className="column"></div>
         </div>
       </div>
     );

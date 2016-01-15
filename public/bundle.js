@@ -24452,27 +24452,35 @@
 	      { className: "container" },
 	      React.createElement(
 	        "div",
-	        { className: "row" },
+	        { className: "row hero" },
 	        React.createElement(
 	          "div",
-	          { className: "column" },
+	          { className: "column text-center" },
 	          React.createElement(
 	            "h1",
-	            { className: "text-center" },
+	            null,
 	            "Thank a developer"
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            "A 'thank you' goes a long way."
+	          ),
+	          React.createElement(
+	            "p",
+	            null,
+	            "Why not reach out and make someone's day?"
 	          )
 	        )
 	      ),
 	      React.createElement(
 	        "div",
 	        { className: "row", style: { marginTop: '75px' } },
-	        React.createElement("div", { className: "column" }),
 	        React.createElement(
 	          "div",
-	          { className: "column" },
+	          { className: "column column-50 column-offset-25" },
 	          this.props.children
-	        ),
-	        React.createElement("div", { className: "column" })
+	        )
 	      )
 	    );
 	  }
@@ -24549,23 +24557,52 @@
 	  displayName: "Repos",
 
 	  render: function render() {
+
+	    // TODO: Repo component and share component
 	    var repos = this.props.repos.map(function (repo, index) {
 	      return React.createElement(
 	        "li",
-	        { className: "list-group-item", key: index },
-	        repo.html_url && React.createElement(
-	          "h4",
-	          null,
+	        { className: "list-item", key: index },
+	        React.createElement(
+	          "div",
+	          { className: "row" },
 	          React.createElement(
-	            "a",
-	            { href: repo.html_url },
-	            repo.name
+	            "div",
+	            { className: "column column-75" },
+	            repo.html_url && React.createElement(
+	              "h4",
+	              null,
+	              React.createElement(
+	                "a",
+	                { href: repo.html_url },
+	                repo.name
+	              )
+	            ),
+	            !repo.html_url && React.createElement(
+	              "h4",
+	              null,
+	              repo.name
+	            ),
+	            repo.description && React.createElement(
+	              "p",
+	              null,
+	              repo.description
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            { className: "column text-right" },
+	            repo.owner.email && React.createElement(
+	              "a",
+	              { className: "button", href: "mailto:" + repo.owner.email },
+	              "Email"
+	            ),
+	            repo.owner.login && React.createElement(
+	              "a",
+	              { className: "button button-twitter", href: "https://twitter.com/" + repo.owner.login },
+	              "Tweet"
+	            )
 	          )
-	        ),
-	        repo.owner.email && React.createElement(
-	          "h6",
-	          null,
-	          repo.owner.email
 	        )
 	      );
 	    });
@@ -24576,11 +24613,11 @@
 	      React.createElement(
 	        "h3",
 	        null,
-	        "Your Starred Repos "
+	        "Your Starred Repos"
 	      ),
 	      React.createElement(
 	        "ul",
-	        { className: "list-group" },
+	        { className: "list list-repos" },
 	        repos
 	      )
 	    );
@@ -24602,13 +24639,33 @@
 	function getStarredRepos(username) {
 	  return axios.get('https://api.github.com/users/' + username + '/starred');
 	}
+	function getUser(username) {
+	  return axios.get('https://api.github.com/users/' + username);
+	}
 
 	var helpers = {
 	  github: {
-
-	    //
 	    getUserData: function getUserData(username) {
-	      return getStarredRepos(username);
+	      var promises;
+	      var repos;
+
+	      return new Promise(function (resolve, reject) {
+	        getStarredRepos(username).then(function (reposResponse) {
+	          repos = reposResponse.data;
+
+	          // Retrieve full owner details of each repo
+	          promises = repos.map(function (repo) {
+	            return getUser(repo.owner.login).then(function (userResponse) {
+	              repo.owner = userResponse.data;
+	            });
+	          });
+
+	          // Return list of repos after all users have been retrieved.
+	          Promise.all(promises).then(function () {
+	            resolve(repos);
+	          });
+	        });
+	      });
 	    }
 	  }
 	};
@@ -25712,9 +25769,9 @@
 	  componentDidMount: function componentDidMount() {
 	    var _this = this;
 
-	    helpers.github.getUserData(this.props.params.username).then(function (response) {
+	    helpers.github.getUserData(this.props.params.username).then(function (repos) {
 	      _this.setState({
-	        repos: response.data
+	        repos: repos
 	      });
 	    });
 	  },
