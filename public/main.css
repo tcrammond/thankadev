@@ -8,7 +8,7 @@ General utility
     text-align: right;
 }
 
-@media (max-width: 40.0rem) {
+@media (max-width: 39.99rem) {
     .column-100-mobile {
         max-width: 100% !important;
         margin-left: 0 !important;
@@ -90,13 +90,18 @@ Lists
 }
 
 .list-repos .button {
-    float: right;
-    clear: both;
+    float: left;
+    margin-right: 5px;
 }
 
-@media (max-width: 40.0rem) {
+/* Buttons in a column on > mobile */
+@media (min-width: 40.0rem) {
     .list-repos .button {
-        float: left;
-        clear: none;
+        float: right;
+        clear: both;
+
+        width: 100%;
+        padding: 0;
+        margin-right: 0;
     }
 }
