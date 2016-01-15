@@ -11,11 +11,10 @@ var Repos = React.createClass({
         </li>
       );
     });
-    console.log(this.props.repos, repos);
 
     return (
       <div>
-        <h3>Repos! </h3>
+        <h3>Your Starred Repos </h3>
         <ul className="list-group">
           {repos}
         </ul>

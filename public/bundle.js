@@ -24463,7 +24463,17 @@
 	          )
 	        )
 	      ),
-	      this.props.children
+	      React.createElement(
+	        "div",
+	        { className: "row", style: { marginTop: '75px' } },
+	        React.createElement("div", { className: "column" }),
+	        React.createElement(
+	          "div",
+	          { className: "column" },
+	          this.props.children
+	        ),
+	        React.createElement("div", { className: "column" })
+	      )
 	    );
 	  }
 
@@ -24478,31 +24488,48 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var Router = __webpack_require__(159);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
 
+	  mixins: [Router.History],
+	  getInitialState: function getInitialState() {
+	    return {
+	      username: ''
+	    };
+	  },
+	  onUsernameChange: function onUsernameChange(event) {
+	    this.setState({
+	      username: event.target.value || ''
+	    });
+	  },
+	  search: function search(e) {
+	    e.preventDefault();
+
+	    if (this.state.username) {
+	      this.history.pushState(null, '/stars/' + this.state.username);
+	    }
+	  },
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'row', style: { marginTop: '75px' } },
-	      React.createElement('div', { className: 'column' }),
+	      null,
 	      React.createElement(
-	        'div',
-	        { className: 'column' },
-	        React.createElement(
-	          'h2',
-	          { className: 'text-center' },
-	          'Enter your GitHub username'
-	        ),
-	        React.createElement('input', { type: 'text', className: 'text-center' }),
+	        'h2',
+	        { className: 'text-center' },
+	        'Enter your GitHub username'
+	      ),
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.search },
+	        React.createElement('input', { type: 'text', className: 'text-center', value: this.state.username, onChange: this.onUsernameChange }),
 	        React.createElement(
 	          'button',
-	          { className: 'button', onClick: this.search },
+	          { className: 'button button-block', onClick: this.search },
 	          'Go'
 	        )
-	      ),
-	      React.createElement('div', { className: 'column' })
+	      )
 	    );
 	  }
 	});
@@ -24542,7 +24569,6 @@
 	        )
 	      );
 	    });
-	    console.log(this.props.repos, repos);
 
 	    return React.createElement(
 	      "div",
@@ -24550,7 +24576,7 @@
 	      React.createElement(
 	        "h3",
 	        null,
-	        "Repos! "
+	        "Your Starred Repos "
 	      ),
 	      React.createElement(
 	        "ul",

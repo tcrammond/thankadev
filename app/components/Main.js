@@ -12,7 +12,13 @@ var Main = React.createClass({
             <h1 className="text-center">Thank a developer</h1>
           </div>
         </div>
-        {this.props.children}
+        <div className="row" style={{marginTop: '75px'}}>
+          <div className="column"></div>
+          <div className="column">
+            {this.props.children}
+          </div>
+          <div className="column"></div>
+        </div>
       </div>
     );
   }
