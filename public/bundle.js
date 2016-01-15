@@ -24615,6 +24615,16 @@
 	        null,
 	        "Your Starred Repos"
 	      ),
+	      !this.props.repos.length && React.createElement(
+	        "div",
+	        null,
+	        React.createElement("i", { className: "fa fa-spinner fa-spin", style: { 'font-size': '24px' } }),
+	        React.createElement(
+	          "span",
+	          { style: { marginLeft: '20px' } },
+	          "Just a second..."
+	        )
+	      ),
 	      React.createElement(
 	        "ul",
 	        { className: "list list-repos" },

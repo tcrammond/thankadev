@@ -26,6 +26,9 @@ var Repos = React.createClass({
     return (
       <div>
         <h3>Your Starred Repos</h3>
+        {!this.props.repos.length &&
+          <div><i className="fa fa-spinner fa-spin" style={{'font-size': '24px'}}></i><span style={{marginLeft: '20px'}}>Just a second...</span></div>
+        }
         <ul className="list list-repos">
           {repos}
         </ul>
