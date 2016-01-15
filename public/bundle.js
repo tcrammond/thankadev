@@ -24478,7 +24478,7 @@
 	        { className: "row", style: { marginTop: '75px' } },
 	        React.createElement(
 	          "div",
-	          { className: "column column-50 column-offset-25" },
+	          { className: "column column-50 column-offset-25 column-100-mobile" },
 	          this.props.children
 	        )
 	      )
@@ -24591,7 +24591,7 @@
 	          ),
 	          React.createElement(
 	            "div",
-	            { className: "column text-right" },
+	            { className: "column column-25 text-right" },
 	            repo.owner.email && React.createElement(
 	              "a",
 	              { className: "button", href: "mailto:" + repo.owner.email },
@@ -25777,15 +25777,7 @@
 	  },
 
 	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-xs-12 col-sm-6 col-sm-offset-3' },
-	        React.createElement(Repos, { repos: this.state.repos })
-	      )
-	    );
+	    return React.createElement(Repos, { repos: this.state.repos });
 	  }
 
 	});

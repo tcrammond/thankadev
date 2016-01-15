@@ -8,13 +8,54 @@ General utility
     text-align: right;
 }
 
+@media (max-width: 40.0rem) {
+    .column-100-mobile {
+        max-width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+    /*
+    Milligram changes rows to flex-direction:column on mobile.
+    When I have column-75 etc, they don't become full width. This fixes that.
+
+    Not sure if I'm mis-using milligram grid system at this point. TODO: ask.
+    */
+    .row .column {
+        flex: 1 !important;
+        max-width: 100% !important;
+    }
+}
+
 /*
 Components
 */
+#callout {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+
+    width: 200px;
+    height: 3rem;
+    padding: 0.25rem;
+    text-align: center;
+
+    background: #9b4dca;
+    color: white;
+}
+
+#callout a {
+    color: white;
+}
+
 .hero {
-    height: 30vh;
+    padding: 2rem;
     align-items: center;
     justify-content: center;
+}
+@media (max-width: 40.00rem) {
+    .hero {
+        height: auto;
+    }
 }
 .hero p {
     margin-bottom: 0.25rem;
@@ -51,4 +92,11 @@ Lists
 .list-repos .button {
     float: right;
     clear: both;
+}
+
+@media (max-width: 40.0rem) {
+    .list-repos .button {
+        float: left;
+        clear: none;
+    }
 }

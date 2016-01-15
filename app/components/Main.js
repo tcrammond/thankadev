@@ -15,7 +15,7 @@ var Main = React.createClass({
           </div>
         </div>
         <div className="row" style={{marginTop: '75px'}}>
-          <div className="column column-50 column-offset-25">
+          <div className="column column-50 column-offset-25 column-100-mobile">
             {this.props.children}
           </div>
         </div>
