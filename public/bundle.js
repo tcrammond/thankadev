@@ -24549,58 +24549,75 @@
 /* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 
 	var Repos = React.createClass({
-	  displayName: "Repos",
+	  displayName: 'Repos',
 
+	  siteUrl: 'http://thankadev.io',
+	  intentUrl: 'https://twitter.com/intent/tweet',
+
+	  // This is horrible.
+	  getTweet: function getTweet(repo) {
+	    return [this.intentUrl + '?text=', encodeURIComponent(this.getMessageBody(repo) + ' ' + this.siteUrl), '&url=' + encodeURIComponent(repo.html_url)].join('');
+	  },
+	  getMailTo: function getMailTo(repo) {
+	    return ['mailto:' + repo.owner.email, '?subject=' + this.getMessageSubject(repo), '&body=' + this.getMessageBody(repo) + '%0D%0A%0D%0A' + this.siteUrl].join('');
+	  },
+	  getMessageSubject: function getMessageSubject(repo) {
+	    return 'A quick thanks for ' + repo.name;
+	  },
+	  getMessageBody: function getMessageBody(repo) {
+	    return 'Hey @' + repo.owner.login + ', thanks for making ' + repo.name + ' :)';
+	  },
 	  render: function render() {
+	    var _this = this;
 
 	    // TODO: Repo component and share component
 	    var repos = this.props.repos.map(function (repo, index) {
 	      return React.createElement(
-	        "li",
-	        { className: "list-item", key: index },
+	        'li',
+	        { className: 'list-item', key: index },
 	        React.createElement(
-	          "div",
-	          { className: "row" },
+	          'div',
+	          { className: 'row' },
 	          React.createElement(
-	            "div",
-	            { className: "column column-75" },
+	            'div',
+	            { className: 'column column-75' },
 	            repo.html_url && React.createElement(
-	              "h4",
+	              'h4',
 	              null,
 	              React.createElement(
-	                "a",
+	                'a',
 	                { href: repo.html_url },
 	                repo.name
 	              )
 	            ),
 	            !repo.html_url && React.createElement(
-	              "h4",
+	              'h4',
 	              null,
 	              repo.name
 	            ),
 	            repo.description && React.createElement(
-	              "p",
+	              'p',
 	              null,
 	              repo.description
 	            )
 	          ),
 	          React.createElement(
-	            "div",
-	            { className: "column column-25 text-right" },
+	            'div',
+	            { className: 'column column-25 text-right' },
 	            repo.owner.email && React.createElement(
-	              "a",
-	              { className: "button", href: "mailto:" + repo.owner.email },
-	              "Email"
+	              'a',
+	              { className: 'button', href: _this.getMailTo(repo) },
+	              'Email'
 	            ),
 	            repo.owner.login && React.createElement(
-	              "a",
-	              { className: "button button-twitter", href: "https://twitter.com/" + repo.owner.login },
-	              "Tweet"
+	              'a',
+	              { className: 'button button-twitter', href: _this.getTweet(repo), target: '_blank' },
+	              'Tweet'
 	            )
 	          )
 	        )
@@ -24608,26 +24625,35 @@
 	    });
 
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "h3",
+	        'h3',
 	        null,
-	        "Your Starred Repos"
+	        'Your Starred Repos'
 	      ),
 	      !this.props.repos.length && React.createElement(
-	        "div",
+	        'div',
 	        null,
-	        React.createElement("i", { className: "fa fa-spinner fa-spin", style: { 'font-size': '24px' } }),
+	        React.createElement('i', { className: 'fa fa-spinner fa-spin', style: { fontSize: '24px' } }),
 	        React.createElement(
-	          "span",
+	          'span',
 	          { style: { marginLeft: '20px' } },
-	          "Just a second..."
+	          'Just a second...'
+	        )
+	      ),
+	      !!this.props.repos.length && React.createElement(
+	        'p',
+	        null,
+	        React.createElement(
+	          'em',
+	          null,
+	          'Note: this assumes that GitHub/Twitter usernames are identical. Please check before tweeting!'
 	        )
 	      ),
 	      React.createElement(
-	        "ul",
-	        { className: "list list-repos" },
+	        'ul',
+	        { className: 'list list-repos' },
 	        repos
 	      )
 	    );
