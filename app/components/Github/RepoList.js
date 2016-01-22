@@ -1,5 +1,7 @@
 var React = require('react');
 
+var TweetButton = require('../Twitter/TweetButton');
+
 var Repos = React.createClass({
 
   siteUrl: 'http://thankadev.io',
@@ -44,7 +46,7 @@ var Repos = React.createClass({
             </div>
             <div className="column column-25 text-right">
               {repo.owner.email && <a className="button" href={this.getMailTo(repo)}>Email</a>}
-              {repo.owner.login && <a className="button button-twitter" href={this.getTweet(repo)} target="_blank">Tweet</a>}
+              <TweetButton className="button button-twitter" message={`${this.getMessageBody(repo)} ${this.siteUrl}`} url={`${encodeURIComponent(repo.html_url)}`} />
             </div>
           </div>
         </li>
