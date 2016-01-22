@@ -1,13 +1,13 @@
 var React = require('react');
 var ReactRouter = require('react-router');
 
-var Repos = require('./Github/Repos');
-var helpers = require('./../utils/helpers');
+var Repos = require('./../Github/RepoList');
+var helpers = require('./../../utils/helpers');
 
 var Profile = React.createClass({
 
   /*
-   Set the initial state of the component, i.e. any state this is going to handle is initialized here
+   Set the initial state of the component, i.e. any state this component will handle can be initialized here
    */
   getInitialState: function() {
     return {
@@ -16,7 +16,7 @@ var Profile = React.createClass({
   },
 
   /*
-   This lifecycle event will be called after the component mounts the view (duh)
+   This lifecycle event will be called after the component mounts (is rendered in to) the view (duh)
    */
   componentDidMount: function() {
     helpers.github
