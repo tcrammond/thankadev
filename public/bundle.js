@@ -24597,6 +24597,7 @@
 
 	var React = __webpack_require__(1);
 
+	var TwitterProfileButton = __webpack_require__(234);
 	var TweetButton = __webpack_require__(233);
 
 	var Repos = React.createClass({
@@ -24660,7 +24661,8 @@
 	              { className: 'button', href: _this.getMailTo(repo) },
 	              'Email'
 	            ),
-	            React.createElement(TweetButton, { className: 'button button-twitter', message: _this.getMessageBody(repo) + ' ' + _this.siteUrl, url: '' + encodeURIComponent(repo.html_url) })
+	            React.createElement(TwitterProfileButton, { className: 'button', username: repo.owner.login }),
+	            React.createElement(TweetButton, { className: 'button button-twitter', message: _this.getMessageBody(repo) + ' ' + _this.siteUrl, url: encodeURIComponent(repo.html_url) })
 	          )
 	        )
 	      );
@@ -24669,11 +24671,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(
-	        'h3',
-	        null,
-	        'Your Starred Repos'
-	      ),
 	      !this.props.repos.length && React.createElement(
 	        'div',
 	        null,
@@ -24685,12 +24682,21 @@
 	        )
 	      ),
 	      !!this.props.repos.length && React.createElement(
-	        'p',
+	        'div',
 	        null,
 	        React.createElement(
-	          'em',
+	          'p',
 	          null,
-	          'Note: this assumes that GitHub/Twitter usernames are identical. Please check before tweeting!'
+	          'Here are your started repositories with easy ways to contact the owner.'
+	        ),
+	        React.createElement(
+	          'p',
+	          null,
+	          React.createElement(
+	            'em',
+	            null,
+	            'Note: this tool assumes that the Twitter username is identical to the GitHub username. Please check before tweeting!'
+	          )
 	        )
 	      ),
 	      React.createElement(
@@ -25845,6 +25851,36 @@
 	      'a',
 	      _extends({}, this.props, { href: this.getTweetLink(), target: '_blank' }),
 	      'Tweet'
+	    );
+	  }
+	});
+
+	module.exports = TweetButton;
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(1);
+
+	var TweetButton = React.createClass({
+	  displayName: 'TweetButton',
+
+	  intentUrl: 'https://twitter.com',
+
+	  getProfileLink: function getProfileLink() {
+	    return this.intentUrl + '/' + this.props.username;
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'a',
+	      _extends({}, this.props, { href: this.getProfileLink(), target: '_blank' }),
+	      'P'
 	    );
 	  }
 	});

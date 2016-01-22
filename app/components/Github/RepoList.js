@@ -1,5 +1,6 @@
 var React = require('react');
 
+var TwitterProfileButton = require('../Twitter/ProfileButton');
 var TweetButton = require('../Twitter/TweetButton');
 
 var Repos = React.createClass({
@@ -46,7 +47,8 @@ var Repos = React.createClass({
             </div>
             <div className="column column-25 text-right">
               {repo.owner.email && <a className="button" href={this.getMailTo(repo)}>Email</a>}
-              <TweetButton className="button button-twitter" message={`${this.getMessageBody(repo)} ${this.siteUrl}`} url={`${encodeURIComponent(repo.html_url)}`} />
+              <TwitterProfileButton className="button" username={repo.owner.login} />
+              <TweetButton className="button button-twitter" message={`${this.getMessageBody(repo)} ${this.siteUrl}`} url={encodeURIComponent(repo.html_url)} />
             </div>
           </div>
         </li>
@@ -55,11 +57,15 @@ var Repos = React.createClass({
 
     return (
       <div>
-        <h3>Your Starred Repos</h3>
         {!this.props.repos.length &&
           <div><i className="fa fa-spinner fa-spin" style={{fontSize: '24px'}}></i><span style={{marginLeft: '20px'}}>Just a second...</span></div>
         }
-        {!!this.props.repos.length && <p><em>Note: this assumes that GitHub/Twitter usernames are identical. Please check before tweeting!</em></p>}
+        {!!this.props.repos.length &&
+          <div>
+            <p>Here are your started repositories with easy ways to contact the owner.</p>
+            <p><em>Note: this tool assumes that the Twitter username is identical to the GitHub username. Please check before tweeting!</em></p>
+          </div>
+        }
         <ul className="list list-repos">
           {repos}
         </ul>
