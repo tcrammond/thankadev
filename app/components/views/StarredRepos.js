@@ -26,9 +26,10 @@ var Profile = React.createClass({
         this.setState({
           repos: repos
         });
-      }).catch(error => {
+      })
+      .catch(error => {
         console.error('uh oh');
-        this.history.pushState(null, `/`);
+        this.history.pushState(null, `/`, {message: `Woops! Couldn\'t find that username or something else went wrong.`});
       });
   },
 

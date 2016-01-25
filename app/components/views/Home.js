@@ -26,11 +26,14 @@ var Home = React.createClass({
     }
   },
   render: function() {
+    const {query} = this.props.location;
+
     return (
       <div>
         <h2 className="text-center">
           Enter your GitHub username
         </h2>
+        {query.message && <blockquote className="error">{query.message}</blockquote>}
         <form onSubmit={this.search}>
           <input type="text" className="text-center" value={this.state.username} onChange={this.onUsernameChange}/>
           <button className="button button-block" onClick={this.search}>Go</button>

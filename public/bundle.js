@@ -24525,6 +24525,8 @@
 	    }
 	  },
 	  render: function render() {
+	    var query = this.props.location.query;
+
 	    return React.createElement(
 	      'div',
 	      null,
@@ -24532,6 +24534,11 @@
 	        'h2',
 	        { className: 'text-center' },
 	        'Enter your GitHub username'
+	      ),
+	      query.message && React.createElement(
+	        'blockquote',
+	        { className: 'error' },
+	        query.message
 	      ),
 	      React.createElement(
 	        'form',
@@ -24587,7 +24594,7 @@
 	      });
 	    }).catch(function (error) {
 	      console.error('uh oh');
-	      _this.history.pushState(null, '/');
+	      _this.history.pushState(null, '/', { message: 'Woops! Couldn\'t find that username or something else went wrong.' });
 	    });
 	  },
 

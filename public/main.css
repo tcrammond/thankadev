@@ -61,6 +61,10 @@ Components
     margin-bottom: 0.25rem;
 }
 
+blockquote.error {
+    border-color: #CA4D4D;
+}
+
 /*
 Buttons
 */
