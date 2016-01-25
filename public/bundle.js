@@ -24606,10 +24606,6 @@
 	  siteUrl: 'http://thankadev.io',
 	  intentUrl: 'https://twitter.com/intent/tweet',
 
-	  // This is horrible.
-	  getTweet: function getTweet(repo) {
-	    return [this.intentUrl + '?text=', encodeURIComponent(this.getMessageBody(repo) + ' ' + this.siteUrl), '&url=' + encodeURIComponent(repo.html_url)].join('');
-	  },
 	  getMailTo: function getMailTo(repo) {
 	    return ['mailto:' + repo.owner.email, '?subject=' + this.getMessageSubject(repo), '&body=' + this.getMessageBody(repo) + '%0D%0A%0D%0A' + this.siteUrl].join('');
 	  },
@@ -24632,7 +24628,7 @@
 	          { className: 'row' },
 	          React.createElement(
 	            'div',
-	            { className: 'column column-75' },
+	            { className: 'column' },
 	            repo.html_url && React.createElement(
 	              'h4',
 	              null,
@@ -24652,16 +24648,20 @@
 	              null,
 	              repo.description
 	            )
-	          ),
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
 	          React.createElement(
 	            'div',
-	            { className: 'column column-25 text-right' },
+	            { className: 'column' },
 	            repo.owner.email && React.createElement(
 	              'a',
 	              { className: 'button', href: _this.getMailTo(repo) },
 	              'Email'
 	            ),
-	            React.createElement(TwitterProfileButton, { className: 'button', username: repo.owner.login }),
+	            React.createElement(TwitterProfileButton, { className: 'button button-twitter', username: repo.owner.login }),
 	            React.createElement(TweetButton, { className: 'button button-twitter', message: _this.getMessageBody(repo) + ' ' + _this.siteUrl, url: encodeURIComponent(repo.html_url) })
 	          )
 	        )
@@ -24687,7 +24687,15 @@
 	        React.createElement(
 	          'p',
 	          null,
-	          'Here are your started repositories with easy ways to contact the owner.'
+	          'Here are your ',
+	          React.createElement('i', { className: 'fa fa-star' }),
+	          ' ',
+	          React.createElement(
+	            'strong',
+	            null,
+	            'starred repositories'
+	          ),
+	          ' with easy ways to contact the owner. You can email them if there\'s a public email address available or tweet them.'
 	        ),
 	        React.createElement(
 	          'p',
@@ -24695,7 +24703,7 @@
 	          React.createElement(
 	            'em',
 	            null,
-	            'Note: this tool assumes that the Twitter username is identical to the GitHub username. Please check before tweeting!'
+	            'We\'re assuming that the owner\'s Twitter username is identical to the GitHub username. Please check before tweeting!'
 	          )
 	        )
 	      ),
@@ -24733,7 +24741,7 @@
 	    return React.createElement(
 	      'a',
 	      _extends({}, this.props, { href: this.getProfileLink(), target: '_blank' }),
-	      'P'
+	      'View profile'
 	    );
 	  }
 	});

@@ -8,15 +8,6 @@ var Repos = React.createClass({
   siteUrl: 'http://thankadev.io',
   intentUrl: 'https://twitter.com/intent/tweet',
 
-  // This is horrible.
-  getTweet(repo) {
-    return [
-      `${this.intentUrl}?text=`,
-      encodeURIComponent(`${this.getMessageBody(repo)} ${this.siteUrl}`),
-      `&url=${encodeURIComponent(repo.html_url)}`
-    ].join('');
-  },
-
   getMailTo(repo) {
     return [
       `mailto:${repo.owner.email}`,
@@ -40,14 +31,16 @@ var Repos = React.createClass({
       return (
         <li className="list-item" key={index}>
           <div className="row">
-            <div className="column column-75">
+            <div className="column">
               {repo.html_url && <h4><a href={repo.html_url}>{repo.name}</a></h4>}
               {!repo.html_url && <h4>{repo.name}</h4>}
               {repo.description && <p>{repo.description}</p>}
             </div>
-            <div className="column column-25 text-right">
+          </div>
+          <div className="row">
+            <div className="column">
               {repo.owner.email && <a className="button" href={this.getMailTo(repo)}>Email</a>}
-              <TwitterProfileButton className="button" username={repo.owner.login} />
+              <TwitterProfileButton className="button button-twitter" username={repo.owner.login} />
               <TweetButton className="button button-twitter" message={`${this.getMessageBody(repo)} ${this.siteUrl}`} url={encodeURIComponent(repo.html_url)} />
             </div>
           </div>
@@ -62,8 +55,9 @@ var Repos = React.createClass({
         }
         {!!this.props.repos.length &&
           <div>
-            <p>Here are your started repositories with easy ways to contact the owner.</p>
-            <p><em>Note: this tool assumes that the Twitter username is identical to the GitHub username. Please check before tweeting!</em></p>
+            <p>Here are your <i className="fa fa-star"></i> <strong>starred repositories</strong> with easy ways to
+              contact the owner. You can email them if there's a public email address available or tweet them.</p>
+            <p><em>We're assuming that the owner's Twitter username is identical to the GitHub username. Please check before tweeting!</em></p>
           </div>
         }
         <ul className="list list-repos">

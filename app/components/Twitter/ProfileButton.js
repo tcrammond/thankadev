@@ -9,7 +9,7 @@ var TweetButton = React.createClass({
 
   render: function() {
     return (
-      <a {...this.props} href={this.getProfileLink()} target="_blank">P</a>
+      <a {...this.props} href={this.getProfileLink()} target="_blank">View profile</a>
     );
   }
 });

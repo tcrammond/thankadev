@@ -20,10 +20,10 @@ General utility
 
     Not sure if I'm mis-using milligram grid system at this point. TODO: ask.
     */
-    .row .column {
-        flex: 1 !important;
-        max-width: 100% !important;
-    }
+    /*.row .column {*/
+        /*flex: 1 !important;*/
+        /*max-width: 100% !important;*/
+    /*}*/
 }
 
 /*
@@ -82,26 +82,14 @@ Lists
 }
 
 .list-repos .list-item {
-    border-bottom: 1px solid lightgray;
-}
-
-.list-repos .list-item:last-child {
-    border-bottom: none;
+    border-top: 1px solid lightgray;
 }
 
 .list-repos .button {
     float: left;
-    margin-right: 5px;
+    padding: 0 2rem;
 }
 
-/* Buttons in a column on > mobile */
-@media (min-width: 40.0rem) {
-    .list-repos .button {
-        float: right;
-        clear: both;
-
-        width: 100%;
-        padding: 0;
-        margin-right: 0;
-    }
+.list-repos .button:not(last-child) {
+    margin-right: 3px;
 }
