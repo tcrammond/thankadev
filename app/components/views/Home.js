@@ -1,18 +1,23 @@
 var React = require('react');
 var Router = require('react-router');
 
+var helpers = require('../../utils/helpers');
+
 var Home = React.createClass({
   mixins: [Router.History],
+
   getInitialState: function() {
     return {
       username: ''
     };
   },
+
   onUsernameChange: function(event) {
     this.setState({
       username: event.target.value || ''
     });
   },
+
   search: function(e) {
     e.preventDefault();
 

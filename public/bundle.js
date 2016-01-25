@@ -24498,20 +24498,25 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(159);
 
+	var helpers = __webpack_require__(217);
+
 	var Home = React.createClass({
 	  displayName: 'Home',
 
 	  mixins: [Router.History],
+
 	  getInitialState: function getInitialState() {
 	    return {
 	      username: ''
 	    };
 	  },
+
 	  onUsernameChange: function onUsernameChange(event) {
 	    this.setState({
 	      username: event.target.value || ''
 	    });
 	  },
+
 	  search: function search(e) {
 	    e.preventDefault();
 
@@ -24551,13 +24556,15 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var ReactRouter = __webpack_require__(159);
+	var Router = __webpack_require__(159);
 
 	var Repos = __webpack_require__(214);
 	var helpers = __webpack_require__(217);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
+
+	  mixins: [Router.History],
 
 	  /*
 	   Set the initial state of the component, i.e. any state this component will handle can be initialized here
@@ -24578,6 +24585,9 @@
 	      _this.setState({
 	        repos: repos
 	      });
+	    }).catch(function (error) {
+	      console.error('uh oh');
+	      _this.history.pushState(null, '/');
 	    });
 	  },
 
@@ -24820,6 +24830,8 @@
 	          Promise.all(promises).then(function () {
 	            resolve(repos);
 	          });
+	        }).catch(function (error) {
+	          reject(error);
 	        });
 	      });
 	    }

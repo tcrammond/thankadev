@@ -30,6 +30,9 @@ var helpers = {
               resolve(repos);
             });
           })
+          .catch(error => {
+            reject(error);
+          });
       });
     }
   }
