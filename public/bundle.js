@@ -24424,7 +24424,7 @@
 
 	var Main = __webpack_require__(211);
 	var Home = __webpack_require__(212);
-	var StarredRepos = __webpack_require__(213);
+	var StarredRepos = __webpack_require__(231);
 
 	module.exports = React.createElement(
 	  Route,
@@ -24498,7 +24498,7 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(159);
 
-	var helpers = __webpack_require__(217);
+	var helpers = __webpack_require__(213);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -24524,6 +24524,7 @@
 	      this.history.pushState(null, '/stars/' + this.state.username);
 	    }
 	  },
+
 	  render: function render() {
 	    var query = this.props.location.query;
 
@@ -24562,252 +24563,7 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var Router = __webpack_require__(159);
-
-	var Repos = __webpack_require__(214);
-	var helpers = __webpack_require__(217);
-
-	var Profile = React.createClass({
-	  displayName: 'Profile',
-
-	  mixins: [Router.History],
-
-	  /*
-	   Set the initial state of the component, i.e. any state this component will handle can be initialized here
-	   */
-	  getInitialState: function getInitialState() {
-	    return {
-	      repos: []
-	    };
-	  },
-
-	  /*
-	   This lifecycle event will be called after the component mounts (is rendered in to) the view (duh)
-	   */
-	  componentDidMount: function componentDidMount() {
-	    var _this = this;
-
-	    helpers.github.getUserData(this.props.params.username).then(function (repos) {
-	      _this.setState({
-	        repos: repos
-	      });
-	    }).catch(function (error) {
-	      console.error('uh oh');
-	      _this.history.pushState(null, '/', { message: 'Woops! Couldn\'t find that username or something else went wrong.' });
-	    });
-	  },
-
-	  render: function render() {
-	    return React.createElement(Repos, { repos: this.state.repos });
-	  }
-
-	});
-
-	module.exports = Profile;
-
-/***/ },
-/* 214 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var TwitterProfileButton = __webpack_require__(215);
-	var TweetButton = __webpack_require__(216);
-
-	var Repos = React.createClass({
-	  displayName: 'Repos',
-
-	  siteUrl: 'http://thankadev.io',
-	  intentUrl: 'https://twitter.com/intent/tweet',
-
-	  getMailTo: function getMailTo(repo) {
-	    return ['mailto:' + repo.owner.email, '?subject=' + this.getMessageSubject(repo), '&body=' + this.getMessageBody(repo) + '%0D%0A%0D%0A' + this.siteUrl].join('');
-	  },
-	  getMessageSubject: function getMessageSubject(repo) {
-	    return 'A quick thanks for ' + repo.name;
-	  },
-	  getMessageBody: function getMessageBody(repo) {
-	    return 'Hey @' + repo.owner.login + ', thanks for making ' + repo.name + ' :)';
-	  },
-	  render: function render() {
-	    var _this = this;
-
-	    // TODO: Repo component and share component
-	    var repos = this.props.repos.map(function (repo, index) {
-	      return React.createElement(
-	        'li',
-	        { className: 'list-item', key: index },
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'column' },
-	            repo.html_url && React.createElement(
-	              'h4',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: repo.html_url },
-	                repo.name
-	              )
-	            ),
-	            !repo.html_url && React.createElement(
-	              'h4',
-	              null,
-	              repo.name
-	            ),
-	            repo.description && React.createElement(
-	              'p',
-	              null,
-	              repo.description
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'column' },
-	            repo.owner.email && React.createElement(
-	              'a',
-	              { className: 'button', href: _this.getMailTo(repo) },
-	              'Email'
-	            ),
-	            React.createElement(TwitterProfileButton, { className: 'button button-twitter', username: repo.owner.login }),
-	            React.createElement(TweetButton, { className: 'button button-twitter', message: _this.getMessageBody(repo) + ' ' + _this.siteUrl, url: encodeURIComponent(repo.html_url) })
-	          )
-	        )
-	      );
-	    });
-
-	    return React.createElement(
-	      'div',
-	      null,
-	      !this.props.repos.length && React.createElement(
-	        'div',
-	        null,
-	        React.createElement('i', { className: 'fa fa-spinner fa-spin', style: { fontSize: '24px' } }),
-	        React.createElement(
-	          'span',
-	          { style: { marginLeft: '20px' } },
-	          'Just a second...'
-	        )
-	      ),
-	      !!this.props.repos.length && React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'p',
-	          null,
-	          'Here are your ',
-	          React.createElement('i', { className: 'fa fa-star' }),
-	          ' ',
-	          React.createElement(
-	            'strong',
-	            null,
-	            'starred repositories'
-	          ),
-	          ' with easy ways to contact the owner. You can email them if there\'s a public email address available or tweet them.'
-	        ),
-	        React.createElement(
-	          'p',
-	          null,
-	          React.createElement(
-	            'em',
-	            null,
-	            'We\'re assuming that the owner\'s Twitter username is identical to the GitHub username. Please check before tweeting!'
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'ul',
-	        { className: 'list list-repos' },
-	        repos
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Repos;
-
-/***/ },
-/* 215 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var React = __webpack_require__(1);
-
-	var TweetButton = React.createClass({
-	  displayName: 'TweetButton',
-
-	  intentUrl: 'https://twitter.com',
-
-	  getProfileLink: function getProfileLink() {
-	    return this.intentUrl + '/' + this.props.username;
-	  },
-
-	  render: function render() {
-	    return React.createElement(
-	      'a',
-	      _extends({}, this.props, { href: this.getProfileLink(), target: '_blank' }),
-	      'View profile'
-	    );
-	  }
-	});
-
-	module.exports = TweetButton;
-
-/***/ },
-/* 216 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var React = __webpack_require__(1);
-
-	var TweetButton = React.createClass({
-	  displayName: 'TweetButton',
-
-	  intentUrl: 'https://twitter.com/intent/tweet',
-
-	  getTweetLink: function getTweetLink() {
-	    var components = [this.intentUrl + '?text=', encodeURIComponent(this.props.message)];
-
-	    if (this.props.url) {
-	      components.push('&url=' + encodeURIComponent(this.props.url));
-	    }
-
-	    return components.join('');
-	  },
-
-	  render: function render() {
-	    return React.createElement(
-	      'a',
-	      _extends({}, this.props, { href: this.getTweetLink(), target: '_blank' }),
-	      'Tweet'
-	    );
-	  }
-	});
-
-	module.exports = TweetButton;
-
-/***/ },
-/* 217 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var axios = __webpack_require__(218);
+	var axios = __webpack_require__(214);
 
 	function getStarredRepos(username) {
 	  return axios.get('https://api.github.com/users/' + username + '/starred');
@@ -24848,24 +24604,24 @@
 	module.exports = helpers;
 
 /***/ },
-/* 218 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(219);
+	module.exports = __webpack_require__(215);
 
 /***/ },
-/* 219 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(220);
-	var utils = __webpack_require__(221);
-	var dispatchRequest = __webpack_require__(222);
-	var InterceptorManager = __webpack_require__(230);
-	var isAbsoluteURL = __webpack_require__(231);
-	var combineURLs = __webpack_require__(232);
-	var bind = __webpack_require__(233);
+	var defaults = __webpack_require__(216);
+	var utils = __webpack_require__(217);
+	var dispatchRequest = __webpack_require__(218);
+	var InterceptorManager = __webpack_require__(226);
+	var isAbsoluteURL = __webpack_require__(227);
+	var combineURLs = __webpack_require__(228);
+	var bind = __webpack_require__(229);
 
 	function Axios(defaultConfig) {
 	  this.defaultConfig = utils.merge({
@@ -24933,7 +24689,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(234);
+	axios.spread = __webpack_require__(230);
 
 	// Expose interceptors
 	axios.interceptors = defaultInstance.interceptors;
@@ -24964,12 +24720,12 @@
 
 
 /***/ },
-/* 220 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -25033,7 +24789,7 @@
 
 
 /***/ },
-/* 221 */
+/* 217 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25279,7 +25035,7 @@
 
 
 /***/ },
-/* 222 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -25296,10 +25052,10 @@
 	    try {
 	      if ((typeof XMLHttpRequest !== 'undefined') || (typeof ActiveXObject !== 'undefined')) {
 	        // For browsers use XHR adapter
-	        __webpack_require__(223)(resolve, reject, config);
+	        __webpack_require__(219)(resolve, reject, config);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        __webpack_require__(223)(resolve, reject, config);
+	        __webpack_require__(219)(resolve, reject, config);
 	      }
 	    } catch (e) {
 	      reject(e);
@@ -25311,20 +25067,20 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 223 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	/*global ActiveXObject:true*/
 
-	var defaults = __webpack_require__(220);
-	var utils = __webpack_require__(221);
-	var buildURL = __webpack_require__(224);
-	var parseHeaders = __webpack_require__(225);
-	var transformData = __webpack_require__(226);
-	var isURLSameOrigin = __webpack_require__(227);
-	var btoa = window.btoa || __webpack_require__(228);
+	var defaults = __webpack_require__(216);
+	var utils = __webpack_require__(217);
+	var buildURL = __webpack_require__(220);
+	var parseHeaders = __webpack_require__(221);
+	var transformData = __webpack_require__(222);
+	var isURLSameOrigin = __webpack_require__(223);
+	var btoa = window.btoa || __webpack_require__(224);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  // Transform request data
@@ -25401,7 +25157,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(229);
+	    var cookies = __webpack_require__(225);
 
 	    // Add xsrf header
 	    var xsrfValue =  config.withCredentials || isURLSameOrigin(config.url) ?
@@ -25452,12 +25208,12 @@
 
 
 /***/ },
-/* 224 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -25525,12 +25281,12 @@
 
 
 /***/ },
-/* 225 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	/**
 	 * Parse headers into an object
@@ -25568,12 +25324,12 @@
 
 
 /***/ },
-/* 226 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	/**
 	 * Transform the data for a request or a response
@@ -25594,12 +25350,12 @@
 
 
 /***/ },
-/* 227 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -25668,7 +25424,7 @@
 
 
 /***/ },
-/* 228 */
+/* 224 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25710,12 +25466,12 @@
 
 
 /***/ },
-/* 229 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -25769,12 +25525,12 @@
 
 
 /***/ },
-/* 230 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(221);
+	var utils = __webpack_require__(217);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -25827,7 +25583,7 @@
 
 
 /***/ },
-/* 231 */
+/* 227 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25847,7 +25603,7 @@
 
 
 /***/ },
-/* 232 */
+/* 228 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25865,7 +25621,7 @@
 
 
 /***/ },
-/* 233 */
+/* 229 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25882,7 +25638,7 @@
 
 
 /***/ },
-/* 234 */
+/* 230 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -25913,6 +25669,252 @@
 	  };
 	};
 
+
+/***/ },
+/* 231 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(159);
+
+	var Repos = __webpack_require__(232);
+	var helpers = __webpack_require__(213);
+
+	var Profile = React.createClass({
+	  displayName: 'Profile',
+
+	  mixins: [Router.History],
+
+	  /*
+	   Set the initial state of the component, i.e. any state this component will handle can be initialized here
+	   */
+	  getInitialState: function getInitialState() {
+	    return {
+	      repos: []
+	    };
+	  },
+
+	  /*
+	   This lifecycle event will be called after the component mounts (is rendered in to) the view (duh)
+	   */
+	  componentDidMount: function componentDidMount() {
+	    var _this = this;
+
+	    // Retrieve the specified user's starred repositories and the owner of each repository
+	    helpers.github.getUserData(this.props.params.username).then(function (repos) {
+	      _this.setState({
+	        repos: repos
+	      });
+	    }).catch(function (error) {
+	      console.error('uh oh');
+	      _this.history.pushState(null, '/', { message: 'Woops! Couldn\'t find that username or something else went wrong.' });
+	    });
+	  },
+
+	  render: function render() {
+	    return React.createElement(Repos, { repos: this.state.repos });
+	  }
+
+	});
+
+	module.exports = Profile;
+
+/***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var TwitterProfileButton = __webpack_require__(233);
+	var TweetButton = __webpack_require__(234);
+
+	var Repos = React.createClass({
+	  displayName: 'Repos',
+
+	  siteUrl: 'http://thankadev.github.io',
+	  intentUrl: 'https://twitter.com/intent/tweet',
+
+	  getMailTo: function getMailTo(repo) {
+	    return 'mailto:' + repo.owner.email + '?subject=' + this.getMessageSubject(repo) + '&body=' + this.getMessageBody(repo) + '%0D%0A%0D%0A' + this.siteUrl;
+	  },
+	  getMessageSubject: function getMessageSubject(repo) {
+	    return 'A quick thanks for ' + repo.name;
+	  },
+	  getMessageBody: function getMessageBody(repo) {
+	    return 'Hey @' + repo.owner.login + ', thanks for making ' + repo.name + ' :)';
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    // TODO: Repo component and share component
+	    var repos = this.props.repos.map(function (repo, index) {
+	      return React.createElement(
+	        'li',
+	        { className: 'list-item', key: index },
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'column' },
+	            repo.html_url && React.createElement(
+	              'h4',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: repo.html_url },
+	                repo.name
+	              )
+	            ),
+	            !repo.html_url && React.createElement(
+	              'h4',
+	              null,
+	              repo.name
+	            ),
+	            repo.description && React.createElement(
+	              'p',
+	              null,
+	              repo.description
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'column' },
+	            repo.owner.email && React.createElement(
+	              'a',
+	              { className: 'button', href: _this.getMailTo(repo) },
+	              'Email'
+	            ),
+	            React.createElement(TwitterProfileButton, { className: 'button button-twitter', username: repo.owner.login }),
+	            React.createElement(TweetButton, { className: 'button button-twitter', message: _this.getMessageBody(repo) + ' ' + _this.siteUrl, url: encodeURIComponent(repo.html_url) })
+	          )
+	        )
+	      );
+	    });
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      !this.props.repos.length && React.createElement(
+	        'div',
+	        null,
+	        React.createElement('i', { className: 'fa fa-spinner fa-spin', style: { fontSize: '24px' } }),
+	        React.createElement(
+	          'span',
+	          { style: { marginLeft: '20px' } },
+	          'Just a second...'
+	        )
+	      ),
+	      !!this.props.repos.length && React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'p',
+	          null,
+	          'Here are your ',
+	          React.createElement('i', { className: 'fa fa-star' }),
+	          ' ',
+	          React.createElement(
+	            'strong',
+	            null,
+	            'starred repositories'
+	          ),
+	          ' with easy ways to contact the owner. You can email them if there\'s a public email address available or tweet them.'
+	        ),
+	        React.createElement(
+	          'p',
+	          null,
+	          React.createElement(
+	            'em',
+	            null,
+	            'We\'re assuming that the owner\'s Twitter username is identical to the GitHub username. Please check before tweeting!'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'list list-repos' },
+	        repos
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Repos;
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(1);
+
+	var TweetButton = React.createClass({
+	  displayName: 'TweetButton',
+
+	  intentUrl: 'https://twitter.com',
+
+	  getProfileLink: function getProfileLink() {
+	    return this.intentUrl + '/' + this.props.username;
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'a',
+	      _extends({}, this.props, { href: this.getProfileLink(), target: '_blank' }),
+	      'View profile'
+	    );
+	  }
+	});
+
+	module.exports = TweetButton;
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var React = __webpack_require__(1);
+
+	var TweetButton = React.createClass({
+	  displayName: 'TweetButton',
+
+	  intentUrl: 'https://twitter.com/intent/tweet',
+
+	  getTweetLink: function getTweetLink() {
+	    var uri = this.intentUrl + '?text=' + encodeURIComponent(this.props.message);
+
+	    if (this.props.url) {
+	      uri += '&url=' + encodeURIComponent(this.props.url);
+	    }
+
+	    return uri;
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'a',
+	      _extends({}, this.props, { href: this.getTweetLink(), target: '_blank' }),
+	      'Tweet'
+	    );
+	  }
+	});
+
+	module.exports = TweetButton;
 
 /***/ }
 /******/ ]);

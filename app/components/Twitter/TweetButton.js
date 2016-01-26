@@ -4,16 +4,13 @@ var TweetButton = React.createClass({
   intentUrl: 'https://twitter.com/intent/tweet',
 
   getTweetLink() {
-    const components = [
-      `${this.intentUrl}?text=`,
-      encodeURIComponent(this.props.message)
-    ];
+    let uri = `${this.intentUrl}?text=${encodeURIComponent(this.props.message)}`;
 
     if (this.props.url) {
-      components.push(`&url=${encodeURIComponent(this.props.url)}`);
+      uri += `&url=${encodeURIComponent(this.props.url)}`;
     }
 
-    return components.join('');
+    return uri;
   },
 
   render: function() {

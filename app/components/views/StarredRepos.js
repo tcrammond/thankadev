@@ -20,6 +20,8 @@ var Profile = React.createClass({
    This lifecycle event will be called after the component mounts (is rendered in to) the view (duh)
    */
   componentDidMount: function() {
+
+    // Retrieve the specified user's starred repositories and the owner of each repository
     helpers.github
       .getUserData(this.props.params.username)
       .then(repos => {

@@ -25,6 +25,7 @@ var Home = React.createClass({
       this.history.pushState(null, `/stars/${this.state.username}`);
     }
   },
+
   render: function() {
     const {query} = this.props.location;
 
