@@ -3,6 +3,11 @@ var React = require('react');
 var TweetButton = React.createClass({
   intentUrl: 'https://twitter.com/intent/tweet',
 
+  propTypes: {
+    url: React.PropTypes.string.isRequired,
+    message: React.PropTypes.string.isRequired
+  },
+
   getTweetLink() {
     let uri = `${this.intentUrl}?text=${encodeURIComponent(this.props.message)}`;
 

@@ -25738,6 +25738,10 @@
 	  siteUrl: 'http://thankadev.github.io',
 	  intentUrl: 'https://twitter.com/intent/tweet',
 
+	  propTypes: {
+	    repos: React.PropTypes.array.isRequired
+	  },
+
 	  getMailTo: function getMailTo(repo) {
 	    return 'mailto:' + repo.owner.email + '?subject=' + this.getMessageSubject(repo) + '&body=' + this.getMessageBody(repo) + '%0D%0A%0D%0A' + this.siteUrl;
 	  },
@@ -25865,6 +25869,10 @@
 
 	  intentUrl: 'https://twitter.com',
 
+	  propTypes: {
+	    username: React.PropTypes.string.isRequired
+	  },
+
 	  getProfileLink: function getProfileLink() {
 	    return this.intentUrl + '/' + this.props.username;
 	  },
@@ -25894,6 +25902,11 @@
 	  displayName: 'TweetButton',
 
 	  intentUrl: 'https://twitter.com/intent/tweet',
+
+	  propTypes: {
+	    url: React.PropTypes.string.isRequired,
+	    message: React.PropTypes.string.isRequired
+	  },
 
 	  getTweetLink: function getTweetLink() {
 	    var uri = this.intentUrl + '?text=' + encodeURIComponent(this.props.message);

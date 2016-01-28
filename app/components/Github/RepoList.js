@@ -8,6 +8,10 @@ var Repos = React.createClass({
   siteUrl: 'http://thankadev.github.io',
   intentUrl: 'https://twitter.com/intent/tweet',
 
+  propTypes: {
+    repos: React.PropTypes.array.isRequired
+  },
+
   getMailTo(repo) {
     return `mailto:${repo.owner.email}?subject=${this.getMessageSubject(repo)}&body=${this.getMessageBody(repo)}%0D%0A%0D%0A${this.siteUrl}`;
   },
